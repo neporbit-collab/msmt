@@ -11,7 +11,7 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('wagtailcore', '0097_baselogentry_uuid_action_timestamp_indexes'),
+        ('wagtailcore', '0096_referenceindex_referenceindex_source_object_and_more'),
         ('wagtaildocs', '0014_alter_document_file_size'),
         ('wagtailimages', '0027_image_description'),
     ]

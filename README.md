@@ -20,7 +20,7 @@ Contact inquiries are stored in PostgreSQL and are visible to administrators in 
 
 ## Local setup
 
-Requirements: Python 3.10–3.14, pip, and PostgreSQL for a production-like local database. The application has a SQLite fallback for a quick local preview when `DATABASE_URL` is unset.
+Requirements: Python 3.10–3.13, pip, and PostgreSQL 13 or later. The cPanel-compatible dependency set pins Django 5.1.15 and Wagtail 7.2.3 so it works with the PostgreSQL 13 server available on the target host. Django 5.2 and newer require PostgreSQL 14 or later. Note that these framework pins are older and no longer receive upstream security updates; upgrade the hosting database and application dependencies together when the host offers PostgreSQL 14+. The application has a SQLite fallback for a quick local preview when `DATABASE_URL` is unset.
 
 1. Create and activate a virtual environment, then install `requirements.txt`.
 2. Copy `.env.example` to `.env`. Set a random `DJANGO_SECRET_KEY`, `DJANGO_DEBUG=true`, `DJANGO_ALLOWED_HOSTS=localhost,127.0.0.1`, and your local `DATABASE_URL` if using PostgreSQL. Local SQLite is used if you leave the database URL blank.
@@ -54,7 +54,7 @@ Wagtail pages and their detail records use Wagtail's page revision and publishin
 
 ## cPanel / Passenger deployment
 
-Confirm with the hosting provider that the account has a Python App/Passenger runtime for Python 3.10–3.14 and PostgreSQL 14 or later. Django 5.2 requires PostgreSQL 14 or later; PostgreSQL 13 cannot run this project's migrations. Use a supported Python 3.11 or 3.12 if that is the provider's latest available option.
+Confirm with the hosting provider that the account has a Python App/Passenger runtime for Python 3.10–3.13 and PostgreSQL 13 or later. The pinned Django 5.1.15 / Wagtail 7.2.3 set supports Python 3.13 and PostgreSQL 13. If the host offers PostgreSQL 14+, upgrade Django and Wagtail to maintained releases that support it.
 
 1. Create a PostgreSQL database and application user in cPanel. Start with a clean schema for this fresh build. Do not point the application at an existing production site's database.
 2. In **Setup Python App**, select the Python version, set the application root to this project, select the public domain/path, and use `passenger_wsgi.py` as the startup file with `application` as the WSGI callable.
@@ -70,7 +70,7 @@ Confirm with the hosting provider that the account has a Python App/Passenger ru
    - `DJANGO_DEBUG`: `false`.
    - `DJANGO_ALLOWED_HOSTS`: the bare domain names, comma-separated (for example `example.org,www.example.org`).
    - `CSRF_TRUSTED_ORIGINS`: full HTTPS origins, comma-separated (for example `https://example.org,https://www.example.org`).
-   - `DATABASE_URL`: `postgresql://DB_USER:DB_PASSWORD@DB_HOST:5432/DB_NAME`; URL-encode special characters in the username or password.
+   - `DATABASE_URL`: `postgresql://DB_USER:DB_PASSWORD@DB_HOST:5432/DB_NAME`; URL-encode special characters in the username or password. This deployment set supports PostgreSQL 13.
    - `DB_SSL`: `true` if required by the database host; otherwise `false`.
    - `MEDIA_ROOT`: an absolute, writable path outside the code checkout and deployment directory, such as `/home/CPANELUSER/msmt-media`.
    - `WAGTAILADMIN_BASE_URL`: the public HTTPS site URL.
