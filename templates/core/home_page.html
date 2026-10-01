@@ -12,7 +12,7 @@
         <div class="button-row"><a class="button button-green" href="{% pageurl site_sections.services %}">Explore services <span aria-hidden="true">→</span></a><a class="button button-white" href="{% pageurl site_sections.about %}">Learn about MSMT</a></div>
       </div>
       <div class="hero-visual">
-        {% if page.hero_image %}{% image page.hero_image fill-720x760 class="hero-photo" alt=page.hero_image.alt_text %}{% else %}
+        {% if page.hero_image %}{% image page.hero_image fill-720x760 class="hero-photo" alt=page.hero_image.description %}{% else %}
           <div class="clinic-scene" role="img" aria-label="Illustration of a community health clinic">
             <div class="scene-sun"></div><div class="scene-hills"></div><div class="scene-building"><div class="building-roof"></div><div class="building-sign">MSMT <span>HEALTH CLINIC</span></div><div class="building-window window-one"></div><div class="building-window window-two"></div><div class="building-door"></div><div class="building-wing"></div></div><div class="scene-tree tree-one"></div><div class="scene-tree tree-two"></div>
           </div>
@@ -23,9 +23,9 @@
   </section>
 
   <section class="quick-facts shell" aria-label="MSMT Nepal at a glance">
-    <div class="fact"><span class="fact-number">{{ page.founding_year }}</span><span>Established in Nepal</span></div>
-    <div class="fact"><span class="fact-number">People</span><span>At the center of our work</span></div>
-    <div class="fact"><span class="fact-number">Access</span><span>Essential medicines and care</span></div>
+    <div class="fact"><span class="fact-number">{{ page.impact_stat_two_value }}</span><span>{{ page.impact_stat_two_label }}</span></div>
+    <div class="fact"><span class="fact-number">{{ page.impact_stat_three_value }}</span><span>{{ page.impact_stat_three_label }}</span></div>
+    <div class="fact"><span class="fact-number">{{ page.impact_stat_four_value }}</span><span>{{ page.impact_stat_four_label }}</span></div>
   </section>
 
   <section class="section services-section">

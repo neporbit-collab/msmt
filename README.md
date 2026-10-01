@@ -8,13 +8,13 @@ The Wagtail admin is at `/admin/`. The public page tree has the homepage and the
 
 Editors can update:
 
-- Homepage headline, introduction, image, purpose, service and approach text.
+- Homepage headline, introduction, image, editable impact figures, purpose, service and approach text.
 - About and section introductions and rich text.
-- Service entries and their current/confirm status.
+- Service entries, detailed service copy, feature images and their current/confirm status.
 - Team member roles, biographies, portraits and order.
 - Notices, dates, rich text and downloadable documents.
 - Media stories, photographs, documents and external resource links.
-- Site-wide office contact details, map link, social links, footer text and footer note.
+- Site-wide office contact details, map link and preview, social links, footer text and footer note.
 
 Contact inquiries are stored in PostgreSQL and are visible to administrators in `/django-admin/`. The form asks visitors not to submit health records and is not for urgent care. No email delivery service is configured.
 
@@ -42,7 +42,7 @@ Requirements: Python 3.10–3.14, pip, and PostgreSQL for a production-like loca
    python manage.py seed_site
    ```
 
-   The command is safe to rerun: it does not overwrite content or create duplicate starter records. It creates the page tree and service descriptions from the live public site. It does not import a database, team records, old repository content, notices, or media stories.
+   The command is safe to rerun: it creates missing pages and profiles without replacing editor changes or creating duplicate records. It seeds the supplied team biographies and portraits, the office photo, service descriptions, and doorstep delivery infographic from `static/images/`. It does not import a database, notices, or media stories.
 
 6. Run the local server with `python manage.py runserver`, then open `http://127.0.0.1:8000/` and `http://127.0.0.1:8000/admin/`.
 
@@ -103,9 +103,9 @@ Confirm with the hosting provider that the account has a Python App/Passenger ru
 
 For future model changes, create and commit a Django migration with `python manage.py makemigrations`, then apply it with `python manage.py migrate` during the release. Back up the database before production schema changes.
 
-## Branding and content still needed
+## Supplied content and remaining items
 
-The official MSMT emblem was available on the live site and is included in `static/images/msmt-logo.png`. The live homepage photograph has not been bundled because the supplied repository's asset notes say there were no approved MSMT photographs. A CSS clinic illustration fills the hero until an approved clinic/community photo is supplied. No staff names, bios, portraits, partner marks, testimonials, certifications, or media stories are fabricated or preloaded. The team, notices, and media sections show clear empty states until approved content is added. Confirm all contact details and service availability before launch.
+The supplied transparent MSMT logo and office photograph are included in `static/images/`. The team portraits and biographies from the supplied profile documents are seeded into Wagtail with normal draft, revision and publish controls; editors can revise or unpublish them. The doorstep delivery infographic is used on that service detail page. The About page records the supplied ISO 9001:2015 and DDA/GSDP statements. Verify current certification status, impact figures, biographies, contact details and service availability with MSMT Nepal before a production launch. The supplied brochure lists retail pharmacy, but current availability is marked for confirmation. Notices and media stories remain empty until editors add approved items. Partner logos and testimonials were not supplied.
 
 ## Runtime notes
 

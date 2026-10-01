@@ -15,6 +15,12 @@ class HomePage(Page):
     hero_intro = models.TextField(default="MSMT Nepal works to strengthen access to essential medicines and healthcare support through dependable supply and community-focused services.")
     hero_image = models.ForeignKey(get_image_model_string(), null=True, blank=True, on_delete=models.SET_NULL, related_name="+")
     founding_year = models.CharField(max_length=12, default="2004")
+    impact_stat_two_value = models.CharField(max_length=32, default="20+")
+    impact_stat_two_label = models.CharField(max_length=90, default="Years of services")
+    impact_stat_three_value = models.CharField(max_length=32, default="50+")
+    impact_stat_three_label = models.CharField(max_length=90, default="Partner hospitals and community clinics")
+    impact_stat_four_value = models.CharField(max_length=32, default="70+")
+    impact_stat_four_label = models.CharField(max_length=90, default="Districts reached")
     services_heading = models.CharField(max_length=160, default="Services that support healthier communities")
     services_intro = models.CharField(max_length=240, default="Reliable medicine supply and practical care, designed around community needs.")
     impact_heading = models.CharField(max_length=140, default="Better access, stronger health systems")
@@ -35,7 +41,12 @@ class HomePage(Page):
         MultiFieldPanel([
             FieldPanel("hero_eyebrow"), FieldPanel("hero_heading"), FieldPanel("hero_intro"), FieldPanel("hero_image"),
         ], heading="Homepage introduction"),
-        MultiFieldPanel([FieldPanel("founding_year")], heading="At a glance"),
+        MultiFieldPanel([
+            FieldPanel("founding_year"),
+            FieldPanel("impact_stat_two_value"), FieldPanel("impact_stat_two_label"),
+            FieldPanel("impact_stat_three_value"), FieldPanel("impact_stat_three_label"),
+            FieldPanel("impact_stat_four_value"), FieldPanel("impact_stat_four_label"),
+        ], heading="At a glance"),
         MultiFieldPanel([FieldPanel("services_heading"), FieldPanel("services_intro")], heading="Services introduction"),
         MultiFieldPanel([FieldPanel("impact_heading"), FieldPanel("impact_text"), FieldPanel("objective_heading"), FieldPanel("objective_text")], heading="Our purpose"),
         MultiFieldPanel([FieldPanel("service_support_heading"), FieldPanel("service_support_text")], heading="Purpose and services summary"),
@@ -103,7 +114,8 @@ class ServiceItemPage(OrderedContentPage):
     AVAILABILITY_CHOICES = [("current", "Current service"), ("confirm", "Availability to confirm")]
     availability = models.CharField(max_length=20, choices=AVAILABILITY_CHOICES, default="current")
     icon_name = models.CharField(max_length=40, blank=True, help_text="Optional short icon key, for example medicines or clinic.")
-    content_panels = Page.content_panels + [FieldPanel("summary"), FieldPanel("body"), FieldPanel("availability"), FieldPanel("sort_order")]
+    feature_image = models.ForeignKey(get_image_model_string(), null=True, blank=True, on_delete=models.SET_NULL, related_name="+")
+    content_panels = Page.content_panels + [FieldPanel("summary"), FieldPanel("body"), FieldPanel("feature_image"), FieldPanel("availability"), FieldPanel("sort_order")]
     template = "core/item_page.html"
 
 
@@ -138,12 +150,13 @@ class SiteSettings(BaseSiteSetting):
     phone = models.CharField(max_length=40, default="+977 9768533691")
     secondary_phone = models.CharField(max_length=40, blank=True)
     map_url = models.URLField(blank=True)
+    map_embed_url = models.URLField(blank=True, default="https://maps.google.com/maps?q=27.6821339,85.3264003&z=16&output=embed")
     facebook_url = models.URLField(blank=True)
     youtube_url = models.URLField(blank=True)
     instagram_url = models.URLField(blank=True)
     linkedin_url = models.URLField(blank=True)
     footer_note = models.CharField(max_length=220, default="Information on this site is for general organizational purposes.")
-    panels = [FieldPanel("organization_name"), FieldPanel("tagline"), FieldPanel("address"), FieldPanel("email"), FieldPanel("phone"), FieldPanel("secondary_phone"), FieldPanel("map_url"), MultiFieldPanel([FieldPanel("facebook_url"), FieldPanel("youtube_url"), FieldPanel("instagram_url"), FieldPanel("linkedin_url")], heading="Social links"), FieldPanel("footer_note")]
+    panels = [FieldPanel("organization_name"), FieldPanel("tagline"), FieldPanel("address"), FieldPanel("email"), FieldPanel("phone"), FieldPanel("secondary_phone"), FieldPanel("map_url"), FieldPanel("map_embed_url", heading="Google Maps preview URL", help_text="Paste the Google Maps embed URL for the office map preview."), MultiFieldPanel([FieldPanel("facebook_url"), FieldPanel("youtube_url"), FieldPanel("instagram_url"), FieldPanel("linkedin_url")], heading="Social links"), FieldPanel("footer_note")]
 
     class Meta:
         verbose_name = "Website contact and footer"
