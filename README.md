@@ -54,7 +54,7 @@ Wagtail pages and their detail records use Wagtail's page revision and publishin
 
 ## cPanel / Passenger deployment
 
-Confirm with the hosting provider that the account has a Python App/Passenger runtime for Python 3.10–3.14 and PostgreSQL access. Use a supported Python 3.11 or 3.12 if that is the provider's latest available option.
+Confirm with the hosting provider that the account has a Python App/Passenger runtime for Python 3.10–3.14 and PostgreSQL 14 or later. Django 5.2 requires PostgreSQL 14 or later; PostgreSQL 13 cannot run this project's migrations. Use a supported Python 3.11 or 3.12 if that is the provider's latest available option.
 
 1. Create a PostgreSQL database and application user in cPanel. Start with a clean schema for this fresh build. Do not point the application at an existing production site's database.
 2. In **Setup Python App**, select the Python version, set the application root to this project, select the public domain/path, and use `passenger_wsgi.py` as the startup file with `application` as the WSGI callable.
@@ -113,5 +113,6 @@ The supplied transparent MSMT logo and office photograph are included in `static
 - PostgreSQL is configured through `DATABASE_URL`; SQLite is only a local convenience fallback.
 - Wagtail uploads use `MEDIA_ROOT`, which must be persistent and writable on cPanel.
 - Static CSS, JavaScript, and the logo are collected to `staticfiles/` and served using WhiteNoise.
+- Static collection uses Django manifest hashing without parallel compression, avoiding thread-limit failures on shared cPanel hosts.
 - The contact form stores inquiries in PostgreSQL for an administrator. SMTP notifications are not configured.
 - No production deployment, database import, remote commit, or push was performed.
