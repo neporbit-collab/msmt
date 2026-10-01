@@ -1,0 +1,62 @@
+{% load static wagtailcore_tags wagtailimages_tags wagtailsettings_tags %}
+{% get_settings %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#173752">
+  <title>{% if page.seo_title %}{{ page.seo_title }}{% else %}{{ page.title }}{% endif %} · MSMT Nepal</title>
+  <meta name="description" content="{% if page.search_description %}{{ page.search_description }}{% else %}MSMT Nepal works to strengthen access to essential medicines and healthcare support across Nepal.{% endif %}">
+  <link rel="icon" href="{% static 'images/msmt-logo.png' %}" type="image/png">
+  <link rel="stylesheet" href="{% static 'css/site.css' %}">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="utility-bar"><div class="shell utility-inner">
+    <span>Health access, care and trust</span>
+    <div class="utility-contact">
+      <a href="tel:{{ settings.core.SiteSettings.phone|cut:' ' }}">{{ settings.core.SiteSettings.phone }}</a>
+      <span aria-hidden="true">·</span>
+      <a href="mailto:{{ settings.core.SiteSettings.email }}">{{ settings.core.SiteSettings.email }}</a>
+    </div>
+  </div></div>
+  <header class="site-header">
+    <div class="shell header-inner">
+      <a class="brand" href="{% if site_home %}{% pageurl site_home %}{% else %}/{% endif %}" aria-label="MSMT Nepal home">
+        <img src="{% static 'images/msmt-logo.png' %}" alt="MSMT Nepal emblem" width="72" height="68">
+        <span class="brand-copy"><strong>MSMT Nepal</strong><small>HEALTH · ACCESS · TRUST</small></span>
+      </a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation"><span></span><span></span><span></span><span class="sr-only">Menu</span></button>
+      <nav class="main-navigation" id="primary-navigation" aria-label="Main navigation">
+        <a href="{% if site_home %}{% pageurl site_home %}{% else %}/{% endif %}" {% if page.pk == site_home.pk %}aria-current="page"{% endif %}>Home</a>
+        {% for item in site_navigation %}
+          <a href="{% pageurl item %}" {% if item.pk == page.pk or item.pk == page.get_parent.pk %}aria-current="page"{% endif %}>{{ item.title }}</a>
+        {% endfor %}
+      </nav>
+    </div>
+  </header>
+
+  {% if messages %}<div class="shell message-stack" role="status">{% for message in messages %}<p class="message {{ message.tags }}">{{ message }}</p>{% endfor %}</div>{% endif %}
+  {% block content %}{% endblock %}
+
+  <footer class="site-footer">
+    <div class="shell footer-grid">
+      <div class="footer-about">
+        <a class="footer-brand" href="{% if site_home %}{% pageurl site_home %}{% else %}/{% endif %}">MSMT Nepal</a>
+        <p>{{ settings.core.SiteSettings.tagline }}</p>
+        <div class="social-links">
+          {% if settings.core.SiteSettings.facebook_url %}<a href="{{ settings.core.SiteSettings.facebook_url }}" rel="noopener noreferrer">Facebook</a>{% endif %}
+          {% if settings.core.SiteSettings.youtube_url %}<a href="{{ settings.core.SiteSettings.youtube_url }}" rel="noopener noreferrer">YouTube</a>{% endif %}
+          {% if settings.core.SiteSettings.instagram_url %}<a href="{{ settings.core.SiteSettings.instagram_url }}" rel="noopener noreferrer">Instagram</a>{% endif %}
+          {% if settings.core.SiteSettings.linkedin_url %}<a href="{{ settings.core.SiteSettings.linkedin_url }}" rel="noopener noreferrer">LinkedIn</a>{% endif %}
+        </div>
+      </div>
+      <div><h2>Explore</h2><ul class="footer-links">{% for item in site_navigation %}{% if item.section != "contact" %}<li><a href="{% pageurl item %}">{{ item.title }}</a></li>{% endif %}{% endfor %}</ul></div>
+      <div class="footer-contact"><h2>Contact</h2><address>{{ settings.core.SiteSettings.address }}</address><a href="mailto:{{ settings.core.SiteSettings.email }}">{{ settings.core.SiteSettings.email }}</a><a href="tel:{{ settings.core.SiteSettings.phone|cut:' ' }}">{{ settings.core.SiteSettings.phone }}</a></div>
+    </div>
+    <div class="shell footer-bottom"><span>© {% now "Y" %} {{ settings.core.SiteSettings.organization_name }}</span><span>{{ settings.core.SiteSettings.footer_note }}</span></div>
+  </footer>
+  <script src="{% static 'js/site.js' %}" defer></script>
+</body>
+</html>

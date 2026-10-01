@@ -1,0 +1,60 @@
+{% extends "core/base.html" %}
+{% load wagtailcore_tags wagtailimages_tags %}
+{% block content %}
+<main id="main">
+  <section class="hero">
+    <div class="hero-wash"></div>
+    <div class="shell hero-grid">
+      <div class="hero-copy">
+        <p class="eyebrow">{{ page.hero_eyebrow }}</p>
+        <h1>{{ page.hero_heading }}</h1>
+        <p class="hero-intro">{{ page.hero_intro }}</p>
+        <div class="button-row"><a class="button button-green" href="{% pageurl site_sections.services %}">Explore services <span aria-hidden="true">→</span></a><a class="button button-white" href="{% pageurl site_sections.about %}">Learn about MSMT</a></div>
+      </div>
+      <div class="hero-visual">
+        {% if page.hero_image %}{% image page.hero_image fill-720x760 class="hero-photo" alt=page.hero_image.alt_text %}{% else %}
+          <div class="clinic-scene" role="img" aria-label="Illustration of a community health clinic">
+            <div class="scene-sun"></div><div class="scene-hills"></div><div class="scene-building"><div class="building-roof"></div><div class="building-sign">MSMT <span>HEALTH CLINIC</span></div><div class="building-window window-one"></div><div class="building-window window-two"></div><div class="building-door"></div><div class="building-wing"></div></div><div class="scene-tree tree-one"></div><div class="scene-tree tree-two"></div>
+          </div>
+        {% endif %}
+        <span class="image-caption">Community-focused care</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="quick-facts shell" aria-label="MSMT Nepal at a glance">
+    <div class="fact"><span class="fact-number">{{ page.founding_year }}</span><span>Established in Nepal</span></div>
+    <div class="fact"><span class="fact-number">People</span><span>At the center of our work</span></div>
+    <div class="fact"><span class="fact-number">Access</span><span>Essential medicines and care</span></div>
+  </section>
+
+  <section class="section services-section">
+    <div class="shell">
+      <div class="section-heading"><div><p class="eyebrow">What we do</p><h2>{{ page.services_heading }}</h2><p>{{ page.services_intro }}</p></div>
+        <a class="text-link" href="{% pageurl site_sections.services %}">View all services <span aria-hidden="true">→</span></a>
+      </div>
+      <div class="service-grid">
+        {% for service in featured_services %}<article class="service-card"><span class="service-icon" aria-hidden="true">{% if forloop.counter == 1 %}✚{% elif forloop.counter == 2 %}⌁{% else %}⌂{% endif %}</span><p class="card-label">Current service</p><h3><a href="{% pageurl service %}">{{ service.title }}</a></h3><p>{{ service.summary }}</p></article>
+        {% empty %}<article class="service-card empty-card"><span class="service-icon" aria-hidden="true">✚</span><p class="card-label">Our services</p><h3>Service information is being prepared</h3><p>Contact MSMT Nepal to learn about current services.</p></article>{% endfor %}
+      </div>
+    </div>
+  </section>
+
+  <section class="section purpose-section"><div class="shell purpose-grid">
+    <div class="purpose-lead"><p class="eyebrow">Our purpose</p><h2>{{ page.impact_heading }}</h2><p>{{ page.impact_text }}</p><a class="button button-outline" href="{% pageurl site_sections.services %}">Explore MSMT services <span aria-hidden="true">→</span></a></div>
+    <div class="purpose-detail"><div><p class="eyebrow">Objectives</p><h3>{{ page.objective_heading }}</h3><p>{{ page.objective_text }}</p></div><div><p class="eyebrow">Services</p><h3>{{ page.service_support_heading }}</h3><p>{{ page.service_support_text }}</p></div></div>
+  </div></section>
+
+  <section class="section approach-section"><div class="shell approach-grid">
+    <div class="approach-art" aria-hidden="true"><div class="paper-sheet"><div class="paper-emblem">+</div><i></i><i></i><i></i><b>CARE FOR ALL</b></div><div class="plant-leaf leaf-a"></div><div class="plant-leaf leaf-b"></div><div class="plant-stem"></div><div class="small-pot"></div></div>
+    <div class="approach-copy"><p class="eyebrow">Our approach</p><h2>{{ page.approach_heading }}</h2><p>{{ page.approach_text }}</p><ul class="check-list"><li>{{ page.approach_point_one }}</li><li>{{ page.approach_point_two }}</li><li>{{ page.approach_point_three }}</li></ul><a class="text-link" href="{% pageurl site_sections.about %}">Learn about our approach <span aria-hidden="true">→</span></a></div>
+  </div></section>
+
+  <section class="section media-section"><div class="shell">
+    <div class="section-heading"><div><p class="eyebrow">From MSMT</p><h2>{{ page.media_heading }}</h2></div><a class="text-link" href="{% pageurl site_sections.media %}">Visit Media <span aria-hidden="true">→</span></a></div>
+    <div class="media-feature">{% for story in latest_media %}{% if story.cover_image %}{% image story.cover_image fill-460x320 alt="" %}{% else %}<div class="media-placeholder" aria-hidden="true"><span>MSMT Nepal</span></div>{% endif %}<div><p class="eyebrow">Updates and resources</p><h3><a href="{% pageurl story %}">{{ story.title }}</a></h3><p>{{ story.summary }}</p><a class="text-link" href="{% pageurl story %}">Read story <span aria-hidden="true">→</span></a></div>{% empty %}<div class="media-placeholder" aria-hidden="true"><span>MSMT Nepal</span></div><div><p class="eyebrow">Updates and resources</p><h3>Stories and resources</h3><p>{{ page.media_intro }}</p></div>{% endfor %}</div>
+  </div></section>
+
+  <section class="contact-cta"><div class="shell cta-inner"><div><p class="eyebrow">Let’s connect</p><h2>Let’s connect</h2><p>For service inquiries and partnerships, contact MSMT Nepal.</p></div><a class="button button-white" href="{% pageurl site_sections.contact %}">Contact MSMT <span aria-hidden="true">→</span></a></div></section>
+</main>
+{% endblock %}
